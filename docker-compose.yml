@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  mongo:
+    image: mongo
+    network_mode: host
+  todolist.api:
+    image: ${DOCKER_REGISTRY-}todolistapi
+    depends_on:
+     - mongo
+    tty: true
+    environment:
+      WAIT_HOSTS: mongodb:27017
+      MONGODB_URI: mongodb://mongo:27017
+    build:
+      context: .
+      dockerfile: ToDoList.API/Dockerfile
